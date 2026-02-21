@@ -14,6 +14,10 @@ builder.Services.AddHttpClient("WeatherApi", client =>
     client.BaseAddress = new Uri("https://api.weather.gov");
     client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("weather-tool", "1.0"));
 });
+builder.Services.AddHttpClient("SimpleWeather", client =>
+{
+    client.BaseAddress = new Uri("https://apiservice");
+});
 
 var app = builder.Build();
 app.MapDefaultEndpoints();

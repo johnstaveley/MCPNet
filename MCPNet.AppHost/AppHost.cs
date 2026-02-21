@@ -1,7 +1,10 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.Api>("api");
+var apiService = builder.AddProject<Projects.Api>("apiservice")
+    .WithHealthCheck("/health");
 
-builder.AddProject<Projects.MCPServer>("mcpserver");
+builder.AddProject<Projects.MCPServer>("mcpserver")
+    .WithReference(apiService)
+    .WithHealthCheck("/health");
 
 builder.Build().Run();

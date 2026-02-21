@@ -10,6 +10,7 @@ namespace MCPServer.Tools;
 public sealed class WeatherTools
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly JsonSerializerOptions _jsonSerializerOptions = new() { WriteIndented = true };
 
     public WeatherTools(IHttpClientFactory httpClientFactory)
     {
