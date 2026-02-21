@@ -2,6 +2,9 @@ using MCPServer.Tools;
 using System.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHealthChecks();
+
 builder.AddServiceDefaults();
 
 builder.Services.AddMcpServer()
