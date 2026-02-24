@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.McpInspector" Version="13.1.2-beta.518" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Api\Api.csproj" />
     <ProjectReference Include="..\MCPServer\MCPServer.csproj" />
   </ItemGroup>

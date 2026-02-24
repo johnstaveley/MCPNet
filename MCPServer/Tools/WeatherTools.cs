@@ -17,6 +17,19 @@ public sealed class WeatherTools
         _httpClientFactory = httpClientFactory;
     }
 
+
+    [McpServerTool, Description("Get current weather conditions for a location")]
+    public async Task<string> GetSimpleWeather()
+    {
+        var client = _httpClientFactory.CreateClient("SimpleWeather");
+        var forecast = await client.GetFromJsonAsync<List<WeatherForecast>>("_weatherforecast");
+        if (forecast == null || !forecast.Any())
+        {
+            return "No weather data available.";
+        }
+        return JsonSerializer.Serialize(forecast, _jsonSerializerOptions);
+    }
+
     [McpServerTool, Description("Get weather alerts for a US state.")]
     [McpMeta("category", "weather")]
     [McpMeta("dataSource", "weather.gov")]
@@ -75,4 +88,6 @@ public sealed class WeatherTools
                 Forecast: {period.GetProperty("detailedForecast").GetString()}
                 """));
     }
+    public record WeatherForecast (DateOnly Date, int TemperatureC, string? Summary, int TemperatureF );
 }
+
