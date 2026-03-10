@@ -1,6 +1,6 @@
 <Solution>
   <Project Path="Api/Api.csproj" />
-  <Project Path="MCPNet.AppHost/AppHost.csproj" />
+  <Project Path="MCPNet.AppHost/Platform.csproj" />
   <Project Path="MCPNet.ServiceDefaults/ServiceDefaults.csproj" />
   <Project Path="MCPServer/MCPServer.csproj" />
 </Solution>
