@@ -7,6 +7,8 @@ var mcp = builder.AddProject<Projects.MCPServer>("mcpserver")
     .WithReference(apiService);
     //.WithHealthCheck("/health");
 
-builder.AddMcpInspector("mcp-inspector").WithMcpServer(mcp, path: "");
+builder.AddMcpInspector("mcp-inspector")
+    .WithEnvironment("NODE_TLS_REJECT_UNAUTHORIZED", "0")
+    .WithMcpServer(mcp, path: "");
 
 builder.Build().Run();
