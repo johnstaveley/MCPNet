@@ -8,7 +8,7 @@ builder.Services.AddHealthChecks();
 builder.AddServiceDefaults();
 
 builder.Services.AddMcpServer()
-    .WithHttpTransport()
+    .WithHttpTransport(opts => opts.Stateless = true)
     .WithTools<WeatherTools>();
 
 // Configure HttpClientFactory for weather.gov API
