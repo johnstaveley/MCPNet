@@ -17,6 +17,13 @@ public sealed class WeatherTools
         _httpClientFactory = httpClientFactory;
     }
 
+    [McpServerTool, Description("Returns a list of products")]
+    public async Task<string> GetProducts()
+    {
+        var products = new List<string> { "Cheese", "Ham", "Chips" };
+        return JsonSerializer.Serialize(products, _jsonSerializerOptions);
+    }
+
 
     [McpServerTool, Description("Get current weather conditions for a location")]
     public async Task<string> GetSimpleWeather()

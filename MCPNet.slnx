@@ -1,5 +1,6 @@
 <Solution>
   <Project Path="Api/Api.csproj" />
+  <Project Path="IntegrationTests/IntegrationTests.csproj" Id="e4eab8e7-aa0d-47f6-a4af-3dbcdb4f5b45" />
   <Project Path="MCPNet.AppHost/Platform.csproj" />
   <Project Path="MCPNet.ServiceDefaults/ServiceDefaults.csproj" />
   <Project Path="MCPServer/MCPServer.csproj" />
