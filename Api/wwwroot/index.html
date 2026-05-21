@@ -42,34 +42,21 @@
             padding: 0;
         }
         .header-inner {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
             padding: 24px 20px;
             display: flex;
             align-items: center;
             gap: 20px;
         }
-        .logo-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #fff;
-        }
-        .logo-dot { color: #4db6e8; }
-        .header-divider {
-            width: 1px;
-            height: 36px;
-            background: rgba(255,255,255,0.3);
-        }
-        .header-title {
-            font-size: 1rem;
-            font-weight: 400;
-            opacity: 0.9;
-        }
+        .logo-text { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; color: #fff; }
+        .logo-dot  { color: #4db6e8; }
+        .header-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.3); }
+        .header-title   { font-size: 1rem; font-weight: 400; opacity: 0.9; }
 
         /* ── Layout ── */
         main {
-            max-width: 900px;
+            max-width: 960px;
             margin: 0 auto;
             padding: 32px 20px 60px;
         }
@@ -88,11 +75,11 @@
 
         /* ── Section headings ── */
         .section-heading {
-            font-size: 1rem;
-            font-weight: 600;
+            font-size: 0.92rem;
+            font-weight: 700;
             color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.07em;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -105,8 +92,8 @@
             background: var(--border);
         }
 
-        /* ── Check items ── */
-        #checks-list {
+        /* ── Generic check items ── */
+        .checks-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -118,97 +105,120 @@
             border: 1px solid var(--border);
             border-left: 4px solid var(--border);
             border-radius: var(--radius);
-            padding: 14px 18px;
+            padding: 13px 16px;
             display: flex;
             align-items: flex-start;
-            gap: 14px;
+            gap: 12px;
             transition: box-shadow 0.15s;
         }
         .check-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
         .check-item.pass    { border-left-color: var(--success); }
         .check-item.fail    { border-left-color: var(--error);   background: var(--error-bg); }
         .check-item.warning { border-left-color: var(--warning); background: var(--warning-bg); }
-        .check-item.pending { border-left-color: var(--border);  opacity: 0.6; }
+        .check-item.running { border-left-color: var(--border);  opacity: 0.65; }
 
         .check-icon {
             flex-shrink: 0;
-            width: 28px;
-            height: 28px;
+            width: 26px; height: 26px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            font-weight: 700;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.95rem; font-weight: 700;
         }
         .check-item.pass    .check-icon { background: var(--success-bg); color: var(--success); }
         .check-item.fail    .check-icon { background: var(--error-bg);   color: var(--error);   }
         .check-item.warning .check-icon { background: var(--warning-bg); color: var(--warning); }
-        .check-item.pending .check-icon { background: var(--neutral-bg); color: var(--subtext); }
+        .check-item.running .check-icon { background: var(--neutral-bg); color: var(--subtext); }
 
-        .check-content { flex: 1; min-width: 0; }
-        .check-name {
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 2px;
-        }
-        .check-desc {
-            font-size: 0.82rem;
-            color: var(--subtext);
-            margin-bottom: 4px;
-        }
-        .check-detail {
-            font-size: 0.85rem;
-            color: var(--text);
-        }
+        .check-body { flex: 1; min-width: 0; }
+        .check-name { font-weight: 600; font-size: 0.92rem; margin-bottom: 2px; }
+        .check-desc { font-size: 0.8rem; color: var(--subtext); margin-bottom: 3px; }
+        .check-detail { font-size: 0.84rem; }
         .check-item.fail    .check-detail { color: var(--error); }
         .check-item.warning .check-detail { color: var(--warning); }
 
         .badge {
             flex-shrink: 0;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 3px 9px;
-            border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            padding: 3px 9px; border-radius: 20px;
             align-self: center;
         }
         .badge-pass    { background: var(--success-bg); color: var(--success); }
         .badge-fail    { background: var(--error-bg);   color: var(--error);   }
         .badge-warn    { background: var(--warning-bg); color: var(--warning); }
-        .badge-pending { background: var(--neutral-bg); color: var(--subtext); }
+        .badge-running { background: var(--neutral-bg); color: var(--subtext); }
+
+        /* ── Connectivity grid ── */
+        #conn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .conn-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--border);
+            border-radius: var(--radius);
+            padding: 10px 14px;
+            min-width: 0;
+        }
+        .conn-item.pass    { border-left-color: var(--success); }
+        .conn-item.fail    { border-left-color: var(--error); background: var(--error-bg); }
+        .conn-item.running { opacity: 0.55; }
+
+        .conn-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 3px;
+        }
+        .conn-status-icon { font-size: 0.8rem; flex-shrink: 0; }
+        .conn-item.pass    .conn-status-icon { color: var(--success); }
+        .conn-item.fail    .conn-status-icon { color: var(--error);   }
+        .conn-item.running .conn-status-icon { color: var(--subtext); }
+
+        .conn-host {
+            font-weight: 600;
+            font-size: 0.82rem;
+            word-break: break-all;
+            flex: 1;
+        }
+        .conn-meta {
+            font-size: 0.73rem;
+            color: var(--subtext);
+        }
+        .conn-meta .directive-tag {
+            display: inline-block;
+            background: var(--primary-pale);
+            color: var(--primary);
+            border-radius: 3px;
+            padding: 1px 5px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            margin-right: 4px;
+        }
 
         /* ── Loading spinner ── */
         .spinner {
             display: inline-block;
-            width: 18px;
-            height: 18px;
+            width: 16px; height: 16px;
             border: 2px solid var(--border);
             border-top-color: var(--primary-light);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             vertical-align: middle;
-            margin-right: 8px;
+            margin-right: 6px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ── Security headers section ── */
-        #csp-section { margin-bottom: 32px; }
-
-        .csp-loading {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            padding: 20px 24px;
-            color: var(--subtext);
-            font-size: 0.9rem;
-        }
-
         .headers-grid {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
+            margin-bottom: 32px;
         }
 
         .header-item {
@@ -216,7 +226,7 @@
             border: 1px solid var(--border);
             border-left: 4px solid var(--border);
             border-radius: var(--radius);
-            padding: 14px 18px;
+            padding: 13px 16px;
         }
         .header-item.present { border-left-color: var(--success); }
         .header-item.missing { border-left-color: var(--error); background: var(--error-bg); }
@@ -224,46 +234,35 @@
         .header-name {
             font-weight: 600;
             font-size: 0.92rem;
-            margin-bottom: 6px;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 7px;
             flex-wrap: wrap;
         }
-        .header-status-icon { font-size: 0.85rem; }
-        .header-item.present .header-status-icon { color: var(--success); }
-        .header-item.missing .header-status-icon { color: var(--error); }
+        .h-status-icon { font-size: 0.85rem; }
+        .header-item.present .h-status-icon { color: var(--success); }
+        .header-item.missing .h-status-icon { color: var(--error);   }
 
         .critical-badge {
-            font-size: 0.68rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 2px 7px;
-            border-radius: 10px;
-            background: var(--error-bg);
-            color: var(--error);
+            font-size: 0.66rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            padding: 2px 7px; border-radius: 10px;
+            background: var(--error-bg); color: var(--error);
             border: 1px solid var(--error);
         }
+        .header-subdesc { font-size: 0.78rem; color: var(--subtext); margin-bottom: 5px; }
+        .header-value   { font-size: 0.8rem; color: var(--text); word-break: break-word; }
+        .header-missing { font-size: 0.84rem; color: var(--error); }
 
-        .header-value {
-            font-size: 0.82rem;
-            color: var(--subtext);
-            word-break: break-word;
-        }
-        .header-missing {
-            font-size: 0.85rem;
-            color: var(--error);
-        }
-
-        /* ── CSP details ── */
+        /* ── CSP detail ── */
         .csp-raw {
             background: var(--code-bg);
             border: 1px solid var(--border);
             border-radius: 4px;
-            padding: 10px 14px;
-            margin-bottom: 10px;
-            font-size: 0.78rem;
+            padding: 9px 12px;
+            margin-bottom: 8px;
+            font-size: 0.76rem;
             word-break: break-all;
         }
         .csp-raw code { font-family: 'Courier New', Courier, monospace; }
@@ -272,104 +271,82 @@
             background: var(--warning-bg);
             border: 1px solid #ffcc80;
             border-radius: 4px;
-            padding: 10px 14px;
-            margin-bottom: 10px;
-            font-size: 0.84rem;
+            padding: 9px 12px;
+            margin-bottom: 8px;
+            font-size: 0.83rem;
             color: var(--warning);
         }
-        .csp-issues ul { padding-left: 18px; margin-top: 6px; }
-        .csp-issues li { margin-bottom: 4px; }
+        .csp-issues ul { padding-left: 18px; margin-top: 5px; }
+        .csp-issues li { margin-bottom: 3px; }
 
         .csp-ok {
-            font-size: 0.84rem;
+            font-size: 0.83rem;
             color: var(--success);
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
-        .csp-directives {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
+        .csp-directives { display: flex; flex-direction: column; gap: 3px; }
         .csp-directive {
             display: flex;
             flex-wrap: wrap;
             align-items: baseline;
             gap: 6px;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
             padding: 4px 0;
             border-bottom: 1px solid var(--border);
         }
         .csp-directive:last-child { border-bottom: none; }
-        .directive-name {
-            font-weight: 700;
-            color: var(--primary);
-            min-width: 160px;
-        }
-        .directive-values {
-            color: var(--subtext);
-            flex: 1;
-            word-break: break-word;
-        }
-        .directive-issue {
-            font-size: 0.78rem;
-            color: var(--warning);
-            font-style: italic;
-        }
+        .directive-name  { font-weight: 700; color: var(--primary); min-width: 180px; }
+        .directive-vals  { color: var(--subtext); flex: 1; word-break: break-word; }
+        .directive-issue { font-size: 0.75rem; color: var(--warning); font-style: italic; }
         .csp-directive.has-issues .directive-name { color: var(--warning); }
 
-        .cors-note {
-            background: var(--primary-pale);
-            border: 1px solid #b0bec5;
+        /* ── Progress bar for connectivity ── */
+        .progress-bar-wrap {
+            background: var(--neutral-bg);
             border-radius: 4px;
-            padding: 10px 14px;
-            font-size: 0.83rem;
-            color: var(--subtext);
-            margin-top: 6px;
+            height: 6px;
+            margin-bottom: 12px;
+            overflow: hidden;
         }
-
-        .header-info {
-            font-size: 0.84rem;
+        .progress-bar-fill {
+            background: var(--success);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        .conn-summary-line {
+            font-size: 0.82rem;
             color: var(--subtext);
             margin-bottom: 12px;
         }
-        .header-info a { color: var(--primary-light); }
 
         /* ── Summary ── */
         #summary {
             border-radius: var(--radius);
-            padding: 22px 24px;
+            padding: 20px 22px;
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 16px;
             font-size: 0.95rem;
         }
         #summary.pass    { background: var(--success-bg); border: 1px solid #80cbc4; }
         #summary.fail    { background: var(--error-bg);   border: 1px solid #ef9a9a; }
         #summary.warning { background: var(--warning-bg); border: 1px solid #ffcc80; }
+        #summary.running { background: var(--neutral-bg); border: 1px solid var(--border); }
 
-        .summary-icon {
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
+        .summary-icon { font-size: 1.8rem; flex-shrink: 0; }
         #summary.pass    .summary-icon { color: var(--success); }
         #summary.fail    .summary-icon { color: var(--error);   }
         #summary.warning .summary-icon { color: var(--warning); }
 
-        #summary strong { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+        #summary strong { display: block; font-size: 1rem; margin-bottom: 3px; }
 
-        /* ── Error msg ── */
-        .error-msg {
-            font-size: 0.85rem;
-            color: var(--error);
-            padding: 4px 0;
-        }
-
-        /* ── Responsive ── */
         @media (max-width: 600px) {
             .check-desc { display: none; }
             .header-inner { flex-wrap: wrap; gap: 10px; }
             .header-divider { display: none; }
+            #conn-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -379,45 +356,53 @@
     <div class="header-inner">
         <span class="logo-text">global<span class="logo-dot">bridge</span></span>
         <div class="header-divider"></div>
-        <span class="header-title">Browser Compatibility Check</span>
+        <span class="header-title">Browser Compatibility &amp; Connectivity Check</span>
     </div>
 </header>
 
 <main>
 
     <div class="intro">
-        <p>This page checks whether your browser is compatible with the
-            <a href="https://new.myglobalbridge.com/" target="_blank" rel="noopener"><strong>globalbridge</strong></a>
-            website and analyses the site's <strong>Content Security Policy</strong> and security headers.
-            All browser checks run locally — no data is sent anywhere.</p>
+        <p>This page checks whether your browser is compatible with
+            <a href="https://new.myglobalbridge.com/" target="_blank" rel="noopener"><strong>new.myglobalbridge.com</strong></a>,
+            verifies that your network can reach every external service listed in its
+            <strong>Content Security Policy</strong>, and reviews the site's security headers.
+            All checks run in your browser — no data is sent to globalbridge.
+        </p>
     </div>
 
-    <!-- Browser Checks -->
+    <!-- ── 1. Browser Checks ── -->
     <div class="section-heading">Browser checks</div>
-    <div id="checks-list">
-        <!-- Populated by JS -->
-        <div class="check-item pending">
+    <div id="browser-checks" class="checks-list">
+        <div class="check-item running">
             <div class="check-icon"><span class="spinner"></span></div>
-            <div class="check-content"><div class="check-name">Running checks…</div></div>
+            <div class="check-body"><div class="check-name">Running browser checks…</div></div>
         </div>
     </div>
 
-    <!-- Security Headers -->
-    <div id="csp-section">
-        <div class="section-heading">Content security policy &amp; security headers</div>
-        <div id="csp-container">
-            <div class="csp-loading">
-                <span class="spinner"></span>
-                Fetching security headers from <strong>new.myglobalbridge.com</strong>…
-            </div>
-        </div>
+    <!-- ── 2. Connectivity Checks ── -->
+    <div class="section-heading">CSP source connectivity</div>
+    <p style="font-size:0.83rem;color:var(--subtext);margin-bottom:12px">
+        Testing whether this browser can reach every external domain listed in
+        <strong>new.myglobalbridge.com</strong>'s Content Security Policy.
+        A <em>pass</em> means the domain responded; a <em>fail</em> means the domain is
+        unreachable from your network (DNS failure, firewall, or the domain is down).
+    </p>
+    <div class="progress-bar-wrap"><div id="conn-progress" class="progress-bar-fill"></div></div>
+    <div id="conn-summary-line" class="conn-summary-line"><span class="spinner"></span>Testing connections…</div>
+    <div id="conn-grid"><!-- populated by JS --></div>
+
+    <!-- ── 3. Security Headers ── -->
+    <div class="section-heading">Content security policy &amp; security headers</div>
+    <div id="headers-section">
+        <div class="headers-grid" id="headers-grid"><!-- populated by JS --></div>
     </div>
 
-    <!-- Summary -->
+    <!-- ── 4. Summary ── -->
     <div class="section-heading">Overall result</div>
-    <div id="summary" class="pending">
+    <div id="summary" class="running">
         <span class="summary-icon">⏳</span>
-        <div><strong>Running…</strong>Checks are in progress.</div>
+        <div><strong>Running…</strong>Checks are still in progress.</div>
     </div>
 
 </main>
@@ -426,143 +411,350 @@
 'use strict';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Config
+// Known security headers for new.myglobalbridge.com (fetched 2026-05-21)
 // ─────────────────────────────────────────────────────────────────────────────
-const TARGET_URL = 'https://new.myglobalbridge.com/';
-
-const MIN_BROWSER_VERSIONS = {
-    Chrome:  90,
-    Firefox: 88,
-    Edge:    90,
-    Safari:  14,
-    Opera:   76,
+const KNOWN_HEADERS = {
+    'content-security-policy': "default-src 'self'; img-src 'self' *.myglobalbridge.com *.sendgrid.net *.sendgrid.com *.googleusercontent.com *.svc.ms *.microsoftpersonalcontent.com globalbridgeappapi.azurewebsites.net globalbridgeappapi-staging.azurewebsites.net globalbridgeappapi-release.azurewebsites.net api.myglobalbridge.com stagingapi.myglobalbridge.com releaseapi.myglobalbridge.com freshchat.com *.youtube.com fc-use1-00-pics-bkt-00.s3.amazonaws.com yt3.ggpht.com i.ytimg.com sndcdn.com data: *.streaming.mediakind.com *.navigatr.app badgr.com badgr.io navigatr.app images.credly.com; font-src 'self' data: *.freshchat.com fonts.gstatic.com cdnjs.cloudflare.com; media-src blob: *.streaming.media.azure.net; worker-src blob: *.freshchat.com; style-src 'self' 'unsafe-inline' hello.myfonts.net *.gstatic.com fonts.googleapis.com *.freshchat.com youtube.com stackpath.bootstrapcdn.com cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline' 'unsafe-eval' *.fw-cdn.com *.freshchat.com *.gstatic.com *.googletagmanager.com freshworksapi.com youtube.com *.msecnd.net *.google.com doubleclick.net sndcdn.com stackpath.bootstrapcdn.com bootstrapcdn.com code.jquery.com cdnjs.cloudflare.com js.monitor.azure.com *.msauth.net; frame-src 'self' *.youtube.com *.freshchat.com *.soundcloud.com *.streaming.media.azure.net *.sendgrid.net *.sendgrid.com; connect-src 'self' *.freshchat.com *.azure.com *.freshmarketer.com *.freshmarketer.eu *.streaming.mediakind.com *.googleapis.com *.gstatic.com *.microsoftonline.com graph.microsoft.com *.microsoftpersonalcontent.com globalbridgeappapi.azurewebsites.net globalbridgeappapi-release.azurewebsites.net api.myglobalbridge.com stagingapi.myglobalbridge.com releaseapi.myglobalbridge.com; object-src 'self' youtube.com freshchat.com; frame-ancestors 'self' sts.platform.rmunify.com",
+    'strict-transport-security': 'max-age=31622400; includeSubDomains; preload',
+    'x-content-type-options':    'nosniff',
+    'x-xss-protection':          '1; mode=block',
+    'x-frame-options':           'SAMEORIGIN',
+    'referrer-policy':           'no-referrer',
+    'permissions-policy':        'geolocation=(self), midi=(), camera=(self), usb=(), magnetometer=(), sync-xhr=(self), microphone=(), gyroscope=(), payment=()',
 };
+
+// ─────────────────────────────────────────────────────────────────────────────
+// All unique external domains from the CSP, with the directive(s) they appear in.
+// For wildcards (*.example.com) we test a known concrete host.
+// ─────────────────────────────────────────────────────────────────────────────
+const CSP_SOURCES = [
+    // ── connect-src (most critical — these are API / real-time connections) ──
+    { url: 'https://api.myglobalbridge.com',                    label: 'api.myglobalbridge.com',                    directives: ['connect-src'] },
+    { url: 'https://releaseapi.myglobalbridge.com',             label: 'releaseapi.myglobalbridge.com',             directives: ['connect-src'] },
+    { url: 'https://stagingapi.myglobalbridge.com',             label: 'stagingapi.myglobalbridge.com',             directives: ['connect-src'] },
+    { url: 'https://globalbridgeappapi.azurewebsites.net',      label: 'globalbridgeappapi.azurewebsites.net',      directives: ['connect-src'] },
+    { url: 'https://globalbridgeappapi-release.azurewebsites.net', label: 'globalbridgeappapi-release.azurewebsites.net', directives: ['connect-src'] },
+    { url: 'https://graph.microsoft.com',                       label: 'graph.microsoft.com',                       directives: ['connect-src'] },
+    { url: 'https://login.microsoftonline.com',                 label: '*.microsoftonline.com',                     directives: ['connect-src'] },
+    { url: 'https://freshchat.com',                             label: '*.freshchat.com',                           directives: ['connect-src', 'script-src', 'font-src', 'worker-src', 'frame-src', 'object-src'] },
+    { url: 'https://www.freshmarketer.com',                     label: '*.freshmarketer.com',                       directives: ['connect-src'] },
+    { url: 'https://www.freshmarketer.eu',                      label: '*.freshmarketer.eu',                        directives: ['connect-src'] },
+    { url: 'https://fonts.googleapis.com',                      label: 'fonts.googleapis.com (*.googleapis.com)',   directives: ['connect-src', 'style-src'] },
+    { url: 'https://fonts.gstatic.com',                         label: 'fonts.gstatic.com (*.gstatic.com)',         directives: ['connect-src', 'font-src', 'style-src'] },
+
+    // ── script-src ──
+    { url: 'https://eu.fw-cdn.com',                             label: 'eu.fw-cdn.com (*.fw-cdn.com)',              directives: ['script-src'] },
+    { url: 'https://freshworksapi.com',                         label: 'freshworksapi.com',                         directives: ['script-src'] },
+    { url: 'https://www.googletagmanager.com',                  label: '*.googletagmanager.com',                    directives: ['script-src'] },
+    { url: 'https://cdnjs.cloudflare.com',                      label: 'cdnjs.cloudflare.com',                      directives: ['script-src', 'style-src', 'font-src'] },
+    { url: 'https://stackpath.bootstrapcdn.com',                label: 'stackpath.bootstrapcdn.com',                directives: ['script-src', 'style-src'] },
+    { url: 'https://bootstrapcdn.com',                          label: 'bootstrapcdn.com',                          directives: ['script-src'] },
+    { url: 'https://code.jquery.com',                           label: 'code.jquery.com',                           directives: ['script-src'] },
+    { url: 'https://js.monitor.azure.com',                      label: 'js.monitor.azure.com',                      directives: ['script-src'] },
+    { url: 'https://doubleclick.net',                           label: 'doubleclick.net',                           directives: ['script-src'] },
+    { url: 'https://sndcdn.com',                                label: 'sndcdn.com',                                directives: ['script-src', 'img-src'] },
+    { url: 'https://login.microsoftonline.com',                 label: '*.msauth.net (via login.microsoftonline.com)', directives: ['script-src'] },
+
+    // ── style-src ──
+    { url: 'https://hello.myfonts.net',                         label: 'hello.myfonts.net',                         directives: ['style-src'] },
+
+    // ── img-src ──
+    { url: 'https://images.credly.com',                         label: 'images.credly.com',                         directives: ['img-src'] },
+    { url: 'https://badgr.com',                                 label: 'badgr.com',                                 directives: ['img-src'] },
+    { url: 'https://badgr.io',                                  label: 'badgr.io',                                  directives: ['img-src'] },
+    { url: 'https://navigatr.app',                              label: 'navigatr.app (*.navigatr.app)',             directives: ['img-src'] },
+    { url: 'https://i.ytimg.com',                               label: 'i.ytimg.com',                               directives: ['img-src'] },
+    { url: 'https://yt3.ggpht.com',                             label: 'yt3.ggpht.com',                             directives: ['img-src'] },
+    { url: 'https://fc-use1-00-pics-bkt-00.s3.amazonaws.com',   label: 'fc-use1-00-pics-bkt-00.s3.amazonaws.com',   directives: ['img-src'] },
+
+    // ── frame-src / object-src ──
+    { url: 'https://www.youtube.com',                           label: 'youtube.com (*.youtube.com)',               directives: ['frame-src', 'img-src', 'script-src', 'object-src'] },
+    { url: 'https://soundcloud.com',                            label: 'soundcloud.com (*.soundcloud.com)',         directives: ['frame-src'] },
+
+    // ── frame-ancestors ──
+    { url: 'https://sts.platform.rmunify.com',                  label: 'sts.platform.rmunify.com',                  directives: ['frame-ancestors'] },
+];
+
+// deduplicate by url
+const seenUrls = new Set();
+const UNIQUE_CSP_SOURCES = CSP_SOURCES.filter(s => {
+    if (seenUrls.has(s.url)) return false;
+    seenUrls.add(s.url);
+    return true;
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Minimum supported browser versions
+// ─────────────────────────────────────────────────────────────────────────────
+const MIN_VERSIONS = { Chrome: 90, Firefox: 88, Edge: 90, Safari: 14, Opera: 76 };
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Entry point
 // ─────────────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
+    // Run all three sections in parallel
+    const [browserResults] = await Promise.all([
+        runBrowserChecks(),
+        renderSecurityHeaders(),
+        runConnectivityChecks(),
+    ]);
+    updateSummary(browserResults);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 1. Browser checks
+// ─────────────────────────────────────────────────────────────────────────────
+async function runBrowserChecks() {
     const results = [];
 
-    // 1. JavaScript (we're already running, so this always passes)
-    results.push({
-        id: 'javascript',
-        name: 'JavaScript',
-        description: 'Required for interactive features and dynamic content',
-        pass: true,
-        detail: 'JavaScript is enabled',
-    });
+    results.push({ name: 'JavaScript', description: 'Required for interactive features', pass: true, detail: 'JavaScript is enabled' });
 
-    // 2. Browser version
     const bi = getBrowserInfo();
     results.push({
-        id: 'browser',
         name: `Browser: ${bi.browser} ${bi.version}`,
-        description: `Minimum supported: Chrome ${MIN_BROWSER_VERSIONS.Chrome}+, Firefox ${MIN_BROWSER_VERSIONS.Firefox}+, Edge ${MIN_BROWSER_VERSIONS.Edge}+, Safari ${MIN_BROWSER_VERSIONS.Safari}+`,
+        description: `Min supported: Chrome ${MIN_VERSIONS.Chrome}+, Firefox ${MIN_VERSIONS.Firefox}+, Edge ${MIN_VERSIONS.Edge}+, Safari ${MIN_VERSIONS.Safari}+`,
         pass: bi.compatible,
         warning: bi.browser === 'Unknown',
         detail: bi.compatible
             ? `${bi.browser} ${bi.version} is supported`
             : bi.browser === 'Unknown'
                 ? 'Could not detect your browser — please ensure you are using a modern browser'
-                : `${bi.browser} ${bi.version} is below the minimum version (${bi.minVersion}). Please update your browser.`,
+                : `${bi.browser} ${bi.version} is below the minimum (${bi.minVersion}). Please update.`,
     });
 
-    // 3. Cookies
-    results.push({
-        id: 'cookies',
-        name: 'Cookies',
-        description: 'Required for session management and authentication',
-        pass: navigator.cookieEnabled,
-        detail: navigator.cookieEnabled
-            ? 'Cookies are enabled'
-            : 'Cookies are disabled — please enable cookies to use globalbridge',
-    });
+    results.push({ name: 'Cookies', description: 'Required for session management and authentication', pass: navigator.cookieEnabled, detail: navigator.cookieEnabled ? 'Cookies are enabled' : 'Cookies are disabled — please enable cookies' });
+    results.push({ name: 'Local Storage',   description: 'Used for storing preferences and cached data', ...tryStorage('local') });
+    results.push({ name: 'Session Storage', description: 'Used for temporary session data',              ...tryStorage('session') });
 
-    // 4. Local Storage
-    results.push({ id: 'ls', name: 'Local Storage', description: 'Used for storing preferences and cached data', ...tryStorage('local') });
-
-    // 5. Session Storage
-    results.push({ id: 'ss', name: 'Session Storage', description: 'Used for temporary session data', ...tryStorage('session') });
-
-    // 6. HTTPS
     const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    results.push({
-        id: 'https',
-        name: 'Secure Connection (HTTPS)',
-        description: 'Required for secure data transmission',
-        pass: isSecure,
-        detail: isSecure ? 'You are on a secure connection' : 'You are not on a secure connection — globalbridge requires HTTPS',
-    });
+    results.push({ name: 'Secure Connection (HTTPS)', description: 'Required for secure data transmission', pass: isSecure, detail: isSecure ? 'You are on a secure connection' : 'Not on HTTPS — globalbridge requires HTTPS' });
 
-    // 7. Fetch API
-    results.push({
-        id: 'fetch',
-        name: 'Fetch API',
-        description: 'Required for communicating with globalbridge servers',
-        pass: typeof fetch === 'function',
-        detail: typeof fetch === 'function' ? 'Fetch API is supported' : 'Fetch API is not available — please update your browser',
-    });
+    results.push({ name: 'Fetch API', description: 'Required for communicating with globalbridge servers', pass: typeof fetch === 'function', detail: typeof fetch === 'function' ? 'Fetch API is supported' : 'Fetch API is not available' });
+    results.push({ name: 'CSS Flexbox',      description: 'Required for responsive layouts',          ...cssCheck('flex') });
+    results.push({ name: 'CSS Grid',         description: 'Required for dashboard layouts',           ...cssCheck('grid') });
+    results.push({ name: 'WebP Image Support', description: 'Used for fast, optimised images',        ...(await webpCheck()) });
+    results.push({ name: 'Modern JavaScript (ES2017+)', description: "Required for globalbridge's front-end code", pass: supportsModernJS(), detail: supportsModernJS() ? 'Modern JavaScript is supported' : 'Modern JavaScript is not fully supported — please update your browser' });
 
-    // 8. CSS Flexbox
-    results.push({ id: 'flexbox', name: 'CSS Flexbox', description: 'Required for responsive page layouts', ...cssDisplayCheck('flex') });
+    const res = screen.width >= 768
+        ? { pass: true,  warning: false, detail: `${screen.width}×${screen.height} — full desktop experience available` }
+        : screen.width >= 320
+        ? { pass: true,  warning: true,  detail: `${screen.width}×${screen.height} — mobile view only` }
+        : { pass: false, warning: false, detail: `${screen.width}×${screen.height} — screen too narrow` };
+    results.push({ name: `Screen Resolution (${screen.width}×${screen.height})`, description: 'Minimum 320 px wide for mobile; 768 px for the full experience', ...res });
 
-    // 9. CSS Grid
-    results.push({ id: 'grid', name: 'CSS Grid', description: 'Required for dashboard and profile layouts', ...cssDisplayCheck('grid') });
+    renderBrowserChecks(results);
+    return results;
+}
 
-    // 10. WebP
-    results.push({ id: 'webp', name: 'WebP Image Support', description: 'Used for faster, optimised image loading', ...(await webpCheck()) });
+function renderBrowserChecks(results) {
+    const el = document.getElementById('browser-checks');
+    if (!el) return;
+    el.innerHTML = results.map(r => checkItemHtml(r)).join('');
+}
 
-    // 11. ES2017+ (async/await, Promise, Symbol)
-    results.push({
-        id: 'es6',
-        name: 'Modern JavaScript (ES2017+)',
-        description: 'Required for globalbridge\'s front-end code',
-        pass: supportsModernJS(),
-        detail: supportsModernJS() ? 'Modern JavaScript is supported' : 'Modern JavaScript is not fully supported — please update your browser',
-    });
-
-    // 12. Screen resolution
-    results.push({
-        id: 'screen',
-        name: `Screen Resolution (${screen.width}×${screen.height})`,
-        description: 'Minimum 320 px wide for mobile; 768 px for the full experience',
-        pass: screen.width >= 320,
-        warning: screen.width < 768,
-        detail: screen.width >= 768
-            ? `${screen.width}×${screen.height} — full desktop experience available`
-            : screen.width >= 320
-                ? `${screen.width}×${screen.height} — mobile view only`
-                : `${screen.width}×${screen.height} — screen is too narrow for globalbridge`,
-    });
-
-    renderChecks(results);
-    updateSummary(results);
-    loadSecurityHeaders();
-});
+function checkItemHtml(r) {
+    const state = r.pass ? (r.warning ? 'warning' : 'pass') : 'fail';
+    const icon  = r.pass ? (r.warning ? '⚠' : '✓') : '✗';
+    const badgeCls = r.pass ? (r.warning ? 'badge-warn' : 'badge-pass') : 'badge-fail';
+    const badgeLabel = r.pass ? (r.warning ? 'Warning' : 'Pass') : 'Fail';
+    return `<div class="check-item ${state}">
+        <div class="check-icon">${icon}</div>
+        <div class="check-body">
+            <div class="check-name">${esc(r.name)}</div>
+            <div class="check-desc">${esc(r.description)}</div>
+            <div class="check-detail">${esc(r.detail)}</div>
+        </div>
+        <span class="badge ${badgeCls}">${badgeLabel}</span>
+    </div>`;
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Browser checks
+// 2. Connectivity checks
+// ─────────────────────────────────────────────────────────────────────────────
+async function runConnectivityChecks() {
+    const grid     = document.getElementById('conn-grid');
+    const progress = document.getElementById('conn-progress');
+    const summLine = document.getElementById('conn-summary-line');
+    if (!grid) return;
+
+    const total   = UNIQUE_CSP_SOURCES.length;
+    const results = new Array(total).fill(null);
+
+    // Seed the grid with "running" placeholders
+    grid.innerHTML = UNIQUE_CSP_SOURCES.map((s, i) =>
+        connItemHtml(s, 'running', '…', i)
+    ).join('');
+
+    let done = 0;
+
+    const updateProgress = () => {
+        done++;
+        const pct = Math.round((done / total) * 100);
+        progress.style.width = pct + '%';
+        const passes = results.filter(r => r === true).length;
+        const fails  = results.filter(r => r === false).length;
+        summLine.textContent = `Testing… ${done}/${total} complete — ${passes} reachable, ${fails} unreachable`;
+    };
+
+    const CONCURRENCY = 8;
+    const queue = [...UNIQUE_CSP_SOURCES.map((s, i) => ({ s, i }))];
+
+    async function worker() {
+        while (queue.length > 0) {
+            const { s, i } = queue.shift();
+            const ok = await testUrl(s.url);
+            results[i] = ok;
+            // Update that specific card
+            const card = grid.querySelector(`[data-idx="${i}"]`);
+            if (card) card.outerHTML = connItemHtml(s, ok ? 'pass' : 'fail', ok ? 'Reachable' : 'Unreachable', i);
+            updateProgress();
+        }
+    }
+
+    const workers = Array.from({ length: CONCURRENCY }, () => worker());
+    await Promise.all(workers);
+
+    const passes = results.filter(r => r === true).length;
+    const fails  = results.filter(r => r === false).length;
+    summLine.innerHTML = fails === 0
+        ? `<strong style="color:var(--success)">✓ All ${passes} domains reachable</strong>`
+        : `<strong style="color:var(--error)">✗ ${fails} domain${fails > 1 ? 's' : ''} unreachable</strong> — ${passes} of ${total} reachable from this network`;
+}
+
+function connItemHtml(source, state, statusText, idx) {
+    const icon = state === 'pass' ? '✓' : state === 'fail' ? '✗' : '…';
+    const tags = source.directives.map(d => `<span class="directive-tag">${esc(d)}</span>`).join('');
+    return `<div class="conn-item ${state}" data-idx="${idx}">
+        <div class="conn-top">
+            <span class="conn-status-icon">${state === 'running' ? '<span class="spinner"></span>' : icon}</span>
+            <span class="conn-host">${esc(source.label)}</span>
+        </div>
+        <div class="conn-meta">${tags}<span style="color:${state === 'pass' ? 'var(--success)' : state === 'fail' ? 'var(--error)' : 'var(--subtext)'}">${statusText}</span></div>
+    </div>`;
+}
+
+async function testUrl(url) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    try {
+        await fetch(url, { mode: 'no-cors', cache: 'no-store', signal: controller.signal });
+        return true;
+    } catch {
+        return false;
+    } finally {
+        clearTimeout(timeout);
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 3. Security headers (rendered from known values)
+// ─────────────────────────────────────────────────────────────────────────────
+async function renderSecurityHeaders() {
+    const grid = document.getElementById('headers-grid');
+    if (!grid) return;
+
+    const HEADER_DEFS = [
+        { key: 'content-security-policy',             label: 'Content-Security-Policy',            critical: true,  desc: 'Controls which resources the browser may load' },
+        { key: 'strict-transport-security',           label: 'Strict-Transport-Security (HSTS)',    critical: true,  desc: 'Forces HTTPS for future visits' },
+        { key: 'x-frame-options',                     label: 'X-Frame-Options',                    critical: true,  desc: 'Prevents clickjacking via iframes (legacy; superseded by frame-ancestors in CSP)' },
+        { key: 'x-content-type-options',              label: 'X-Content-Type-Options',             critical: true,  desc: 'Prevents MIME-type sniffing attacks' },
+        { key: 'x-xss-protection',                    label: 'X-XSS-Protection',                   critical: false, desc: 'Legacy XSS filter — modern browsers rely on CSP instead' },
+        { key: 'referrer-policy',                     label: 'Referrer-Policy',                    critical: false, desc: 'Controls how much referrer information is sent with requests' },
+        { key: 'permissions-policy',                  label: 'Permissions-Policy',                 critical: false, desc: 'Restricts access to browser APIs (camera, geolocation, etc.)' },
+        { key: 'content-security-policy-report-only', label: 'Content-Security-Policy-Report-Only', critical: false, desc: 'Report-only CSP mode — does not enforce, just reports violations' },
+    ];
+
+    let html = `<p style="font-size:0.8rem;color:var(--subtext);margin-bottom:10px">
+        Source: <a href="https://new.myglobalbridge.com/" target="_blank" rel="noopener">new.myglobalbridge.com</a>
+        &mdash; verified ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}.
+    </p>`;
+
+    for (const def of HEADER_DEFS) {
+        const value   = KNOWN_HEADERS[def.key];
+        const present = value !== undefined;
+        html += `<div class="header-item ${present ? 'present' : 'missing'}">
+            <div class="header-name">
+                <span class="h-status-icon">${present ? '✓' : '✗'}</span>
+                ${esc(def.label)}
+                ${def.critical && !present ? '<span class="critical-badge">Critical</span>' : ''}
+            </div>
+            <div class="header-subdesc">${esc(def.desc)}</div>`;
+
+        if (present) {
+            if (def.key === 'content-security-policy') {
+                html += renderCspDetail(value);
+            } else {
+                html += `<div class="header-value"><code style="font-size:0.8rem;word-break:break-word">${esc(value)}</code></div>`;
+            }
+        } else {
+            html += `<div class="header-missing">Not set${def.critical ? ' — this is a security concern' : ''}</div>`;
+        }
+        html += '</div>';
+    }
+
+    grid.innerHTML = html;
+}
+
+function renderCspDetail(csp) {
+    const directives = parseCsp(csp);
+    const globalIssues = analyzeGlobalCsp(directives);
+    let html = `<div class="csp-raw"><code>${esc(csp)}</code></div>`;
+
+    if (globalIssues.length > 0) {
+        html += `<div class="csp-issues"><strong>⚠ Security concerns:</strong><ul>`;
+        globalIssues.forEach(i => { html += `<li>${esc(i)}</li>`; });
+        html += `</ul></div>`;
+    } else {
+        html += `<div class="csp-ok">✓ No critical CSP issues detected</div>`;
+    }
+
+    html += `<details style="margin-top:6px"><summary style="cursor:pointer;font-size:0.8rem;color:var(--subtext)">Show directive breakdown (${Object.keys(directives).length} directives)</summary>
+        <div class="csp-directives" style="margin-top:6px">`;
+    for (const [name, values] of Object.entries(directives)) {
+        const issues = analyzeDirective(name, values);
+        html += `<div class="csp-directive ${issues.length ? 'has-issues' : ''}">
+            <span class="directive-name">${esc(name)}</span>
+            <span class="directive-vals">${values.map(v => esc(v)).join(' ') || '<em>(empty)</em>'}</span>
+            ${issues.length ? `<span class="directive-issue">⚠ ${esc(issues[0])}</span>` : ''}
+        </div>`;
+    }
+    html += `</div></details>`;
+    return html;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 4. Overall summary
+// ─────────────────────────────────────────────────────────────────────────────
+function updateSummary(browserResults) {
+    const el = document.getElementById('summary');
+    if (!el) return;
+    const fails    = browserResults.filter(r => !r.pass);
+    const warnings = browserResults.filter(r => r.pass && r.warning);
+    if (fails.length === 0 && warnings.length === 0) {
+        el.className = 'pass';
+        el.innerHTML = '<span class="summary-icon">✓</span><div><strong>All browser checks passed</strong>Your browser is fully compatible with globalbridge. Check the connectivity results above for any network restrictions.</div>';
+    } else if (fails.length === 0) {
+        el.className = 'warning';
+        el.innerHTML = `<span class="summary-icon">⚠</span><div><strong>${warnings.length} browser warning${warnings.length > 1 ? 's' : ''}</strong>Your browser should work with globalbridge, but some features may be limited.</div>`;
+    } else {
+        el.className = 'fail';
+        el.innerHTML = `<span class="summary-icon">✗</span><div><strong>${fails.length} browser check${fails.length > 1 ? 's' : ''} failed</strong>Please address the failed items before using globalbridge.</div>`;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Browser capability helpers
 // ─────────────────────────────────────────────────────────────────────────────
 function getBrowserInfo() {
     const ua = navigator.userAgent;
-    let browser = 'Unknown', version = '?', minVersion = undefined;
-
-    const match = (re) => ua.match(re)?.[1];
-
-    if (/Edg\/(\d+)/.test(ua)) {
-        browser = 'Edge';    version = match(/Edg\/(\d+)/);
-    } else if (/OPR\/(\d+)/.test(ua)) {
-        browser = 'Opera';   version = match(/OPR\/(\d+)/);
-    } else if (/Chrome\/(\d+)/.test(ua)) {
-        browser = 'Chrome';  version = match(/Chrome\/(\d+)/);
-    } else if (/Firefox\/(\d+)/.test(ua)) {
-        browser = 'Firefox'; version = match(/Firefox\/(\d+)/);
-    } else if (/Version\/(\d+).*Safari/.test(ua)) {
-        browser = 'Safari';  version = match(/Version\/(\d+)/);
-    }
-
-    minVersion = MIN_BROWSER_VERSIONS[browser];
+    let browser = 'Unknown', version = '?', minVersion;
+    const m = (re) => (ua.match(re) || [])[1];
+    if (/Edg\/(\d+)/.test(ua))              { browser = 'Edge';    version = m(/Edg\/(\d+)/); }
+    else if (/OPR\/(\d+)/.test(ua))         { browser = 'Opera';   version = m(/OPR\/(\d+)/); }
+    else if (/Chrome\/(\d+)/.test(ua))      { browser = 'Chrome';  version = m(/Chrome\/(\d+)/); }
+    else if (/Firefox\/(\d+)/.test(ua))     { browser = 'Firefox'; version = m(/Firefox\/(\d+)/); }
+    else if (/Version\/(\d+).*Safari/.test(ua)) { browser = 'Safari'; version = m(/Version\/(\d+)/); }
+    minVersion = MIN_VERSIONS[browser];
     const compatible = minVersion ? parseInt(version, 10) >= minVersion : false;
     return { browser, version, compatible, minVersion };
 }
@@ -571,223 +763,34 @@ function tryStorage(type) {
     const label = type === 'local' ? 'Local storage' : 'Session storage';
     try {
         const s = type === 'local' ? localStorage : sessionStorage;
-        const k = '__gb_compat_test__';
-        s.setItem(k, '1');
-        s.removeItem(k);
+        const k = '__gb_test__';
+        s.setItem(k, '1'); s.removeItem(k);
         return { pass: true, detail: `${label} is available` };
     } catch {
         return { pass: false, detail: `${label} is unavailable (private/incognito mode or browser restrictions)` };
     }
 }
 
-function cssDisplayCheck(value) {
+function cssCheck(value) {
     const el = document.createElement('div');
     el.style.display = value;
     const pass = el.style.display === value;
-    return {
-        pass,
-        detail: pass
-            ? `CSS ${value === 'flex' ? 'Flexbox' : 'Grid'} is supported`
-            : `CSS ${value === 'flex' ? 'Flexbox' : 'Grid'} is not supported`,
-    };
+    const name = value === 'flex' ? 'Flexbox' : 'Grid';
+    return { pass, detail: `CSS ${name} is ${pass ? 'supported' : 'not supported'}` };
 }
 
 function webpCheck() {
     return new Promise(resolve => {
         const img = new Image();
         img.onload  = () => resolve({ pass: img.width > 0, detail: 'WebP images are supported' });
-        img.onerror = () => resolve({ pass: false, warning: true, detail: 'WebP images are not supported — images may load more slowly' });
+        img.onerror = () => resolve({ pass: false, warning: true, detail: 'WebP is not supported — images may load more slowly' });
         img.src = 'data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoCAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA==';
     });
 }
 
 function supportsModernJS() {
-    try {
-        // Arrow functions, destructuring, async, Symbol, Promise
-        return typeof Promise !== 'undefined'
-            && typeof Symbol !== 'undefined'
-            && typeof (async () => {}) === 'function';
-    } catch { return false; }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Render browser checks
-// ─────────────────────────────────────────────────────────────────────────────
-function renderChecks(results) {
-    const el = document.getElementById('checks-list');
-    if (!el) return;
-
-    el.innerHTML = results.map(r => {
-        const state = r.pass ? (r.warning ? 'warning' : 'pass') : 'fail';
-        const icon  = r.pass ? (r.warning ? '⚠' : '✓') : '✗';
-        const badge = r.pass ? (r.warning ? '<span class="badge badge-warn">Warning</span>' : '<span class="badge badge-pass">Pass</span>') : '<span class="badge badge-fail">Fail</span>';
-        return `
-        <div class="check-item ${state}">
-            <div class="check-icon">${icon}</div>
-            <div class="check-content">
-                <div class="check-name">${esc(r.name)}</div>
-                <div class="check-desc">${esc(r.description)}</div>
-                <div class="check-detail">${esc(r.detail)}</div>
-            </div>
-            ${badge}
-        </div>`;
-    }).join('');
-}
-
-function updateSummary(results) {
-    const el = document.getElementById('summary');
-    if (!el) return;
-    const fails    = results.filter(r => !r.pass);
-    const warnings = results.filter(r => r.pass && r.warning);
-
-    if (fails.length === 0 && warnings.length === 0) {
-        el.className = 'pass';
-        el.innerHTML = '<span class="summary-icon">✓</span><div><strong>All checks passed!</strong>Your browser is fully compatible with globalbridge.</div>';
-    } else if (fails.length === 0) {
-        el.className = 'warning';
-        el.innerHTML = `<span class="summary-icon">⚠</span><div><strong>${warnings.length} warning${warnings.length > 1 ? 's' : ''}</strong>Your browser should work with globalbridge, but some features may be limited.</div>`;
-    } else {
-        el.className = 'fail';
-        el.innerHTML = `<span class="summary-icon">✗</span><div><strong>${fails.length} check${fails.length > 1 ? 's' : ''} failed</strong>Please address the failed items above before using globalbridge.</div>`;
-    }
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Security headers via fetch (best-effort; CORS may limit visibility)
-// ─────────────────────────────────────────────────────────────────────────────
-async function loadSecurityHeaders() {
-    const container = document.getElementById('csp-container');
-    if (!container) return;
-
-    try {
-        // We use 'no-cors' mode so the request won't be blocked, but response
-        // headers will be opaque. We therefore also try a CORS-mode request
-        // and fall back gracefully.
-        const response = await fetch(TARGET_URL, {
-            method: 'HEAD',
-            mode: 'cors',
-            cache: 'no-store',
-        }).catch(() => null);
-
-        if (response && response.ok) {
-            const headers = extractSecurityHeaders(response);
-            container.innerHTML = renderSecurityHeaders(headers, TARGET_URL, response.status);
-        } else {
-            // CORS restriction or network issue — render informational note
-            container.innerHTML = renderCorsNote();
-        }
-    } catch {
-        container.innerHTML = renderCorsNote();
-    }
-}
-
-function extractSecurityHeaders(response) {
-    const names = [
-        'content-security-policy',
-        'content-security-policy-report-only',
-        'strict-transport-security',
-        'x-frame-options',
-        'x-content-type-options',
-        'x-xss-protection',
-        'referrer-policy',
-        'permissions-policy',
-    ];
-    const result = {};
-    names.forEach(n => {
-        const v = response.headers.get(n);
-        if (v) result[n] = v;
-    });
-    return result;
-}
-
-function renderSecurityHeaders(headers, url, statusCode) {
-    const checks = [
-        { key: 'content-security-policy',             label: 'Content-Security-Policy',              critical: true,  desc: 'Controls which resources the browser may load' },
-        { key: 'content-security-policy-report-only', label: 'Content-Security-Policy-Report-Only',   critical: false, desc: 'Report-only mode CSP (does not enforce)' },
-        { key: 'strict-transport-security',           label: 'Strict-Transport-Security (HSTS)',      critical: true,  desc: 'Forces HTTPS for future visits' },
-        { key: 'x-frame-options',                     label: 'X-Frame-Options',                      critical: true,  desc: 'Prevents clickjacking via iframes' },
-        { key: 'x-content-type-options',              label: 'X-Content-Type-Options',               critical: true,  desc: 'Prevents MIME-type sniffing' },
-        { key: 'x-xss-protection',                    label: 'X-XSS-Protection',                     critical: false, desc: 'Legacy XSS filter (modern browsers use CSP instead)' },
-        { key: 'referrer-policy',                     label: 'Referrer-Policy',                      critical: false, desc: 'Controls how much referrer information is sent' },
-        { key: 'permissions-policy',                  label: 'Permissions-Policy',                   critical: false, desc: 'Controls access to browser features (camera, geolocation, etc.)' },
-    ];
-
-    let html = `<div class="header-info">Security headers retrieved from <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a> — HTTP ${statusCode}</div><div class="headers-grid">`;
-
-    for (const c of checks) {
-        const value   = headers[c.key];
-        const present = value !== undefined;
-        html += `<div class="header-item ${present ? 'present' : 'missing'}">
-            <div class="header-name">
-                <span class="header-status-icon">${present ? '✓' : '✗'}</span>
-                ${esc(c.label)}
-                ${c.critical && !present ? '<span class="critical-badge">Critical</span>' : ''}
-            </div>
-            <div class="header-value" style="font-size:0.8rem;color:var(--subtext);margin-bottom:4px">${esc(c.desc)}</div>`;
-
-        if (present) {
-            if (c.key === 'content-security-policy') {
-                html += renderCspDetail(value);
-            } else {
-                html += `<div class="header-value">${esc(value)}</div>`;
-            }
-        } else {
-            html += `<div class="header-missing">Not set${c.critical ? ' — this is a security concern' : ''}</div>`;
-        }
-        html += '</div>';
-    }
-
-    html += '</div>';
-    return html;
-}
-
-function renderCspDetail(cspString) {
-    const directives = parseCsp(cspString);
-    const globalIssues = analyzeGlobalCsp(directives);
-    let html = '';
-
-    html += `<div class="csp-raw"><code>${esc(cspString)}</code></div>`;
-
-    if (globalIssues.length > 0) {
-        html += `<div class="csp-issues"><strong>⚠ Security concerns:</strong><ul>`;
-        globalIssues.forEach(i => { html += `<li>${esc(i)}</li>`; });
-        html += `</ul></div>`;
-    } else {
-        html += `<div class="csp-ok">✓ No obvious security issues detected in CSP</div>`;
-    }
-
-    html += `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.83rem;color:var(--subtext)">Show directive breakdown</summary><div class="csp-directives" style="margin-top:8px">`;
-    for (const [name, values] of Object.entries(directives)) {
-        const issues = analyzeDirective(name, values);
-        html += `<div class="csp-directive ${issues.length ? 'has-issues' : ''}">
-            <span class="directive-name">${esc(name)}</span>
-            <span class="directive-values">${values.map(v => esc(v)).join(' ') || '<em>(no value)</em>'}</span>
-            ${issues.length ? `<span class="directive-issue">⚠ ${esc(issues[0])}</span>` : ''}
-        </div>`;
-    }
-    html += `</div></details>`;
-    return html;
-}
-
-function renderCorsNote() {
-    return `
-    <div class="csp-loading">
-        <p style="margin-bottom:8px">
-            <strong>⚠ CORS restriction</strong> — the browser cannot read response headers from
-            <a href="${esc(TARGET_URL)}" target="_blank" rel="noopener">${esc(TARGET_URL)}</a>
-            directly due to the browser's
-            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener">cross-origin policy</a>.
-        </p>
-        <div class="cors-note">
-            <strong>To analyse the security headers manually:</strong><br>
-            Open <a href="${esc(TARGET_URL)}" target="_blank" rel="noopener">${esc(TARGET_URL)}</a>,
-            press <kbd>F12</kbd> → <em>Network</em> tab → click the first request → <em>Response Headers</em>.
-            Look for <code>content-security-policy</code>, <code>strict-transport-security</code>,
-            <code>x-frame-options</code>, and <code>x-content-type-options</code>.
-            Alternatively, use <a href="https://securityheaders.com/?q=${encodeURIComponent(TARGET_URL)}&followRedirects=on" target="_blank" rel="noopener">securityheaders.com</a>
-            or <a href="https://csp-evaluator.withgoogle.com/" target="_blank" rel="noopener">Google CSP Evaluator</a>.
-        </div>
-    </div>`;
+    try { return typeof Promise !== 'undefined' && typeof Symbol !== 'undefined' && typeof (async () => {}) === 'function'; }
+    catch { return false; }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -799,50 +802,34 @@ function parseCsp(csp) {
         const t = part.trim();
         if (!t) return;
         const sp = t.indexOf(' ');
-        if (sp === -1) {
-            result[t.toLowerCase()] = [];
-        } else {
-            result[t.substring(0, sp).toLowerCase()] = t.substring(sp + 1).split(/\s+/).filter(Boolean);
-        }
+        result[sp === -1 ? t.toLowerCase() : t.substring(0, sp).toLowerCase()] =
+            sp === -1 ? [] : t.substring(sp + 1).split(/\s+/).filter(Boolean);
     });
     return result;
 }
 
 function analyzeGlobalCsp(directives) {
     const issues = [];
-    const hasFallback = 'default-src' in directives;
-
-    if (!hasFallback && !('script-src' in directives)) {
+    if (!('default-src' in directives) && !('script-src' in directives))
         issues.push("No default-src or script-src — scripts may load from any origin");
-    }
-    if (!('frame-ancestors' in directives)) {
-        issues.push("Missing frame-ancestors — site may be vulnerable to clickjacking attacks");
-    }
-    if (!hasFallback && !('object-src' in directives)) {
-        issues.push("Missing object-src — browser plugins may load from any origin");
-    }
-    if (!('upgrade-insecure-requests' in directives) && !('block-all-mixed-content' in directives)) {
-        issues.push("No upgrade-insecure-requests or block-all-mixed-content directive — mixed content may be loaded");
-    }
+    if (!('frame-ancestors' in directives))
+        issues.push("Missing frame-ancestors — site may be vulnerable to clickjacking");
+    if (!('upgrade-insecure-requests' in directives) && !('block-all-mixed-content' in directives))
+        issues.push("No upgrade-insecure-requests or block-all-mixed-content directive");
     return issues;
 }
 
 function analyzeDirective(name, values) {
     const issues = [];
-    const isScriptOrDefault = name === 'script-src' || name === 'default-src';
-
-    if (values.includes("'unsafe-inline'") && isScriptOrDefault) {
-        issues.push("'unsafe-inline' allows inline scripts — increases XSS risk");
-    }
-    if (values.includes("'unsafe-eval'")) {
-        issues.push("'unsafe-eval' allows eval() / Function() — code injection risk");
-    }
-    if ((values.includes('*') || values.includes('http:') || values.includes('https:')) && isScriptOrDefault) {
-        issues.push("Overly broad source — scripts may load from any origin");
-    }
-    if (values.includes('data:') && isScriptOrDefault) {
+    const critical = name === 'script-src' || name === 'default-src';
+    if (values.includes("'unsafe-inline'") && critical)
+        issues.push("'unsafe-inline' increases XSS risk");
+    if (values.includes("'unsafe-eval'"))
+        issues.push("'unsafe-eval' allows eval() — code injection risk");
+    if ((values.includes('*') || values.includes('http:') || values.includes('https:')) && critical)
+        issues.push("Overly broad source — any origin allowed");
+    if (values.includes('data:') && critical)
         issues.push("'data:' URIs in script context can enable XSS");
-    }
     return issues;
 }
 
@@ -851,11 +838,7 @@ function analyzeDirective(name, values) {
 // ─────────────────────────────────────────────────────────────────────────────
 function esc(str) {
     if (str == null) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
 </body>
