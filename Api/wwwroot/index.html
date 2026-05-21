@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Compatibility Check | globalbridge</title>
+    <style>
+        :root {
+            --primary:       #1a3c5e;
+            --primary-light: #2e5f8e;
+            --primary-pale:  #e8f0f8;
+            --success:       #00897b;
+            --success-bg:    #e0f2f1;
+            --error:         #c62828;
+            --error-bg:      #ffebee;
+            --warning:       #e65100;
+            --warning-bg:    #fff3e0;
+            --neutral-bg:    #eceff1;
+            --border:        #cfd8dc;
+            --card:          #ffffff;
+            --bg:            #f0f4f8;
+            --text:          #263238;
+            --subtext:       #546e7a;
+            --code-bg:       #f5f5f5;
+            --radius:        8px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        header {
+            background: var(--primary);
+            color: #fff;
+            padding: 0;
+        }
+        .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #fff;
+        }
+        .logo-dot { color: #4db6e8; }
+        .header-divider {
+            width: 1px;
+            height: 36px;
+            background: rgba(255,255,255,0.3);
+        }
+        .header-title {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* ── Layout ── */
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px 20px 60px;
+        }
+
+        .intro {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            margin-bottom: 28px;
+            color: var(--subtext);
+            font-size: 0.95rem;
+        }
+        .intro a { color: var(--primary-light); }
+        .intro strong { color: var(--text); }
+
+        /* ── Section headings ── */
+        .section-heading {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-heading::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── Check items ── */
+        #checks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .check-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 18px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            transition: box-shadow 0.15s;
+        }
+        .check-item:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .check-item.pass    { border-left-color: var(--success); }
+        .check-item.fail    { border-left-color: var(--error);   background: var(--error-bg); }
+        .check-item.warning { border-left-color: var(--warning); background: var(--warning-bg); }
+        .check-item.pending { border-left-color: var(--border);  opacity: 0.6; }
+
+        .check-icon {
+            flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 700;
+        }
+        .check-item.pass    .check-icon { background: var(--success-bg); color: var(--success); }
+        .check-item.fail    .check-icon { background: var(--error-bg);   color: var(--error);   }
+        .check-item.warning .check-icon { background: var(--warning-bg); color: var(--warning); }
+        .check-item.pending .check-icon { background: var(--neutral-bg); color: var(--subtext); }
+
+        .check-content { flex: 1; min-width: 0; }
+        .check-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+        .check-desc {
+            font-size: 0.82rem;
+            color: var(--subtext);
+            margin-bottom: 4px;
+        }
+        .check-detail {
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+        .check-item.fail    .check-detail { color: var(--error); }
+        .check-item.warning .check-detail { color: var(--warning); }
+
+        .badge {
+            flex-shrink: 0;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 3px 9px;
+            border-radius: 20px;
+            align-self: center;
+        }
+        .badge-pass    { background: var(--success-bg); color: var(--success); }
+        .badge-fail    { background: var(--error-bg);   color: var(--error);   }
+        .badge-warn    { background: var(--warning-bg); color: var(--warning); }
+        .badge-pending { background: var(--neutral-bg); color: var(--subtext); }
+
+        /* ── Loading spinner ── */
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border);
+            border-top-color: var(--primary-light);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ── Security headers section ── */
+        #csp-section { margin-bottom: 32px; }
+
+        .csp-loading {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            color: var(--subtext);
+            font-size: 0.9rem;
+        }
+
+        .headers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .header-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 18px;
+        }
+        .header-item.present { border-left-color: var(--success); }
+        .header-item.missing { border-left-color: var(--error); background: var(--error-bg); }
+
+        .header-name {
+            font-weight: 600;
+            font-size: 0.92rem;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .header-status-icon { font-size: 0.85rem; }
+        .header-item.present .header-status-icon { color: var(--success); }
+        .header-item.missing .header-status-icon { color: var(--error); }
+
+        .critical-badge {
+            font-size: 0.68rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1px solid var(--error);
+        }
+
+        .header-value {
+            font-size: 0.82rem;
+            color: var(--subtext);
+            word-break: break-word;
+        }
+        .header-missing {
+            font-size: 0.85rem;
+            color: var(--error);
+        }
+
+        /* ── CSP details ── */
+        .csp-raw {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            font-size: 0.78rem;
+            word-break: break-all;
+        }
+        .csp-raw code { font-family: 'Courier New', Courier, monospace; }
+
+        .csp-issues {
+            background: var(--warning-bg);
+            border: 1px solid #ffcc80;
+            border-radius: 4px;
+            padding: 10px 14px;
+            margin-bottom: 10px;
+            font-size: 0.84rem;
+            color: var(--warning);
+        }
+        .csp-issues ul { padding-left: 18px; margin-top: 6px; }
+        .csp-issues li { margin-bottom: 4px; }
+
+        .csp-ok {
+            font-size: 0.84rem;
+            color: var(--success);
+            margin-bottom: 10px;
+        }
+
+        .csp-directives {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .csp-directive {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 6px;
+            font-size: 0.82rem;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .csp-directive:last-child { border-bottom: none; }
+        .directive-name {
+            font-weight: 700;
+            color: var(--primary);
+            min-width: 160px;
+        }
+        .directive-values {
+            color: var(--subtext);
+            flex: 1;
+            word-break: break-word;
+        }
+        .directive-issue {
+            font-size: 0.78rem;
+            color: var(--warning);
+            font-style: italic;
+        }
+        .csp-directive.has-issues .directive-name { color: var(--warning); }
+
+        .cors-note {
+            background: var(--primary-pale);
+            border: 1px solid #b0bec5;
+            border-radius: 4px;
+            padding: 10px 14px;
+            font-size: 0.83rem;
+            color: var(--subtext);
+            margin-top: 6px;
+        }
+
+        .header-info {
+            font-size: 0.84rem;
+            color: var(--subtext);
+            margin-bottom: 12px;
+        }
+        .header-info a { color: var(--primary-light); }
+
+        /* ── Summary ── */
+        #summary {
+            border-radius: var(--radius);
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            font-size: 0.95rem;
+        }
+        #summary.pass    { background: var(--success-bg); border: 1px solid #80cbc4; }
+        #summary.fail    { background: var(--error-bg);   border: 1px solid #ef9a9a; }
+        #summary.warning { background: var(--warning-bg); border: 1px solid #ffcc80; }
+
+        .summary-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+        #summary.pass    .summary-icon { color: var(--success); }
+        #summary.fail    .summary-icon { color: var(--error);   }
+        #summary.warning .summary-icon { color: var(--warning); }
+
+        #summary strong { display: block; font-size: 1.05rem; margin-bottom: 4px; }
+
+        /* ── Error msg ── */
+        .error-msg {
+            font-size: 0.85rem;
+            color: var(--error);
+            padding: 4px 0;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .check-desc { display: none; }
+            .header-inner { flex-wrap: wrap; gap: 10px; }
+            .header-divider { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <span class="logo-text">global<span class="logo-dot">bridge</span></span>
+        <div class="header-divider"></div>
+        <span class="header-title">Browser Compatibility Check</span>
+    </div>
+</header>
+
+<main>
+
+    <div class="intro">
+        <p>This page checks whether your browser is compatible with the
+            <a href="https://new.myglobalbridge.com/" target="_blank" rel="noopener"><strong>globalbridge</strong></a>
+            website and analyses the site's <strong>Content Security Policy</strong> and security headers.
+            All browser checks run locally — no data is sent anywhere.</p>
+    </div>
+
+    <!-- Browser Checks -->
+    <div class="section-heading">Browser checks</div>
+    <div id="checks-list">
+        <!-- Populated by JS -->
+        <div class="check-item pending">
+            <div class="check-icon"><span class="spinner"></span></div>
+            <div class="check-content"><div class="check-name">Running checks…</div></div>
+        </div>
+    </div>
+
+    <!-- Security Headers -->
+    <div id="csp-section">
+        <div class="section-heading">Content security policy &amp; security headers</div>
+        <div id="csp-container">
+            <div class="csp-loading">
+                <span class="spinner"></span>
+                Fetching security headers from <strong>new.myglobalbridge.com</strong>…
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary -->
+    <div class="section-heading">Overall result</div>
+    <div id="summary" class="pending">
+        <span class="summary-icon">⏳</span>
+        <div><strong>Running…</strong>Checks are in progress.</div>
+    </div>
+
+</main>
+
+<script>
+'use strict';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Config
+// ─────────────────────────────────────────────────────────────────────────────
+const TARGET_URL = 'https://new.myglobalbridge.com/';
+
+const MIN_BROWSER_VERSIONS = {
+    Chrome:  90,
+    Firefox: 88,
+    Edge:    90,
+    Safari:  14,
+    Opera:   76,
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Entry point
+// ─────────────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+    const results = [];
+
+    // 1. JavaScript (we're already running, so this always passes)
+    results.push({
+        id: 'javascript',
+        name: 'JavaScript',
+        description: 'Required for interactive features and dynamic content',
+        pass: true,
+        detail: 'JavaScript is enabled',
+    });
+
+    // 2. Browser version
+    const bi = getBrowserInfo();
+    results.push({
+        id: 'browser',
+        name: `Browser: ${bi.browser} ${bi.version}`,
+        description: `Minimum supported: Chrome ${MIN_BROWSER_VERSIONS.Chrome}+, Firefox ${MIN_BROWSER_VERSIONS.Firefox}+, Edge ${MIN_BROWSER_VERSIONS.Edge}+, Safari ${MIN_BROWSER_VERSIONS.Safari}+`,
+        pass: bi.compatible,
+        warning: bi.browser === 'Unknown',
+        detail: bi.compatible
+            ? `${bi.browser} ${bi.version} is supported`
+            : bi.browser === 'Unknown'
+                ? 'Could not detect your browser — please ensure you are using a modern browser'
+                : `${bi.browser} ${bi.version} is below the minimum version (${bi.minVersion}). Please update your browser.`,
+    });
+
+    // 3. Cookies
+    results.push({
+        id: 'cookies',
+        name: 'Cookies',
+        description: 'Required for session management and authentication',
+        pass: navigator.cookieEnabled,
+        detail: navigator.cookieEnabled
+            ? 'Cookies are enabled'
+            : 'Cookies are disabled — please enable cookies to use globalbridge',
+    });
+
+    // 4. Local Storage
+    results.push({ id: 'ls', name: 'Local Storage', description: 'Used for storing preferences and cached data', ...tryStorage('local') });
+
+    // 5. Session Storage
+    results.push({ id: 'ss', name: 'Session Storage', description: 'Used for temporary session data', ...tryStorage('session') });
+
+    // 6. HTTPS
+    const isSecure = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    results.push({
+        id: 'https',
+        name: 'Secure Connection (HTTPS)',
+        description: 'Required for secure data transmission',
+        pass: isSecure,
+        detail: isSecure ? 'You are on a secure connection' : 'You are not on a secure connection — globalbridge requires HTTPS',
+    });
+
+    // 7. Fetch API
+    results.push({
+        id: 'fetch',
+        name: 'Fetch API',
+        description: 'Required for communicating with globalbridge servers',
+        pass: typeof fetch === 'function',
+        detail: typeof fetch === 'function' ? 'Fetch API is supported' : 'Fetch API is not available — please update your browser',
+    });
+
+    // 8. CSS Flexbox
+    results.push({ id: 'flexbox', name: 'CSS Flexbox', description: 'Required for responsive page layouts', ...cssDisplayCheck('flex') });
+
+    // 9. CSS Grid
+    results.push({ id: 'grid', name: 'CSS Grid', description: 'Required for dashboard and profile layouts', ...cssDisplayCheck('grid') });
+
+    // 10. WebP
+    results.push({ id: 'webp', name: 'WebP Image Support', description: 'Used for faster, optimised image loading', ...(await webpCheck()) });
+
+    // 11. ES2017+ (async/await, Promise, Symbol)
+    results.push({
+        id: 'es6',
+        name: 'Modern JavaScript (ES2017+)',
+        description: 'Required for globalbridge\'s front-end code',
+        pass: supportsModernJS(),
+        detail: supportsModernJS() ? 'Modern JavaScript is supported' : 'Modern JavaScript is not fully supported — please update your browser',
+    });
+
+    // 12. Screen resolution
+    results.push({
+        id: 'screen',
+        name: `Screen Resolution (${screen.width}×${screen.height})`,
+        description: 'Minimum 320 px wide for mobile; 768 px for the full experience',
+        pass: screen.width >= 320,
+        warning: screen.width < 768,
+        detail: screen.width >= 768
+            ? `${screen.width}×${screen.height} — full desktop experience available`
+            : screen.width >= 320
+                ? `${screen.width}×${screen.height} — mobile view only`
+                : `${screen.width}×${screen.height} — screen is too narrow for globalbridge`,
+    });
+
+    renderChecks(results);
+    updateSummary(results);
+    loadSecurityHeaders();
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Browser checks
+// ─────────────────────────────────────────────────────────────────────────────
+function getBrowserInfo() {
+    const ua = navigator.userAgent;
+    let browser = 'Unknown', version = '?', minVersion = undefined;
+
+    const match = (re) => ua.match(re)?.[1];
+
+    if (/Edg\/(\d+)/.test(ua)) {
+        browser = 'Edge';    version = match(/Edg\/(\d+)/);
+    } else if (/OPR\/(\d+)/.test(ua)) {
+        browser = 'Opera';   version = match(/OPR\/(\d+)/);
+    } else if (/Chrome\/(\d+)/.test(ua)) {
+        browser = 'Chrome';  version = match(/Chrome\/(\d+)/);
+    } else if (/Firefox\/(\d+)/.test(ua)) {
+        browser = 'Firefox'; version = match(/Firefox\/(\d+)/);
+    } else if (/Version\/(\d+).*Safari/.test(ua)) {
+        browser = 'Safari';  version = match(/Version\/(\d+)/);
+    }
+
+    minVersion = MIN_BROWSER_VERSIONS[browser];
+    const compatible = minVersion ? parseInt(version, 10) >= minVersion : false;
+    return { browser, version, compatible, minVersion };
+}
+
+function tryStorage(type) {
+    const label = type === 'local' ? 'Local storage' : 'Session storage';
+    try {
+        const s = type === 'local' ? localStorage : sessionStorage;
+        const k = '__gb_compat_test__';
+        s.setItem(k, '1');
+        s.removeItem(k);
+        return { pass: true, detail: `${label} is available` };
+    } catch {
+        return { pass: false, detail: `${label} is unavailable (private/incognito mode or browser restrictions)` };
+    }
+}
+
+function cssDisplayCheck(value) {
+    const el = document.createElement('div');
+    el.style.display = value;
+    const pass = el.style.display === value;
+    return {
+        pass,
+        detail: pass
+            ? `CSS ${value === 'flex' ? 'Flexbox' : 'Grid'} is supported`
+            : `CSS ${value === 'flex' ? 'Flexbox' : 'Grid'} is not supported`,
+    };
+}
+
+function webpCheck() {
+    return new Promise(resolve => {
+        const img = new Image();
+        img.onload  = () => resolve({ pass: img.width > 0, detail: 'WebP images are supported' });
+        img.onerror = () => resolve({ pass: false, warning: true, detail: 'WebP images are not supported — images may load more slowly' });
+        img.src = 'data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoCAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA==';
+    });
+}
+
+function supportsModernJS() {
+    try {
+        // Arrow functions, destructuring, async, Symbol, Promise
+        return typeof Promise !== 'undefined'
+            && typeof Symbol !== 'undefined'
+            && typeof (async () => {}) === 'function';
+    } catch { return false; }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Render browser checks
+// ─────────────────────────────────────────────────────────────────────────────
+function renderChecks(results) {
+    const el = document.getElementById('checks-list');
+    if (!el) return;
+
+    el.innerHTML = results.map(r => {
+        const state = r.pass ? (r.warning ? 'warning' : 'pass') : 'fail';
+        const icon  = r.pass ? (r.warning ? '⚠' : '✓') : '✗';
+        const badge = r.pass ? (r.warning ? '<span class="badge badge-warn">Warning</span>' : '<span class="badge badge-pass">Pass</span>') : '<span class="badge badge-fail">Fail</span>';
+        return `
+        <div class="check-item ${state}">
+            <div class="check-icon">${icon}</div>
+            <div class="check-content">
+                <div class="check-name">${esc(r.name)}</div>
+                <div class="check-desc">${esc(r.description)}</div>
+                <div class="check-detail">${esc(r.detail)}</div>
+            </div>
+            ${badge}
+        </div>`;
+    }).join('');
+}
+
+function updateSummary(results) {
+    const el = document.getElementById('summary');
+    if (!el) return;
+    const fails    = results.filter(r => !r.pass);
+    const warnings = results.filter(r => r.pass && r.warning);
+
+    if (fails.length === 0 && warnings.length === 0) {
+        el.className = 'pass';
+        el.innerHTML = '<span class="summary-icon">✓</span><div><strong>All checks passed!</strong>Your browser is fully compatible with globalbridge.</div>';
+    } else if (fails.length === 0) {
+        el.className = 'warning';
+        el.innerHTML = `<span class="summary-icon">⚠</span><div><strong>${warnings.length} warning${warnings.length > 1 ? 's' : ''}</strong>Your browser should work with globalbridge, but some features may be limited.</div>`;
+    } else {
+        el.className = 'fail';
+        el.innerHTML = `<span class="summary-icon">✗</span><div><strong>${fails.length} check${fails.length > 1 ? 's' : ''} failed</strong>Please address the failed items above before using globalbridge.</div>`;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Security headers via fetch (best-effort; CORS may limit visibility)
+// ─────────────────────────────────────────────────────────────────────────────
+async function loadSecurityHeaders() {
+    const container = document.getElementById('csp-container');
+    if (!container) return;
+
+    try {
+        // We use 'no-cors' mode so the request won't be blocked, but response
+        // headers will be opaque. We therefore also try a CORS-mode request
+        // and fall back gracefully.
+        const response = await fetch(TARGET_URL, {
+            method: 'HEAD',
+            mode: 'cors',
+            cache: 'no-store',
+        }).catch(() => null);
+
+        if (response && response.ok) {
+            const headers = extractSecurityHeaders(response);
+            container.innerHTML = renderSecurityHeaders(headers, TARGET_URL, response.status);
+        } else {
+            // CORS restriction or network issue — render informational note
+            container.innerHTML = renderCorsNote();
+        }
+    } catch {
+        container.innerHTML = renderCorsNote();
+    }
+}
+
+function extractSecurityHeaders(response) {
+    const names = [
+        'content-security-policy',
+        'content-security-policy-report-only',
+        'strict-transport-security',
+        'x-frame-options',
+        'x-content-type-options',
+        'x-xss-protection',
+        'referrer-policy',
+        'permissions-policy',
+    ];
+    const result = {};
+    names.forEach(n => {
+        const v = response.headers.get(n);
+        if (v) result[n] = v;
+    });
+    return result;
+}
+
+function renderSecurityHeaders(headers, url, statusCode) {
+    const checks = [
+        { key: 'content-security-policy',             label: 'Content-Security-Policy',              critical: true,  desc: 'Controls which resources the browser may load' },
+        { key: 'content-security-policy-report-only', label: 'Content-Security-Policy-Report-Only',   critical: false, desc: 'Report-only mode CSP (does not enforce)' },
+        { key: 'strict-transport-security',           label: 'Strict-Transport-Security (HSTS)',      critical: true,  desc: 'Forces HTTPS for future visits' },
+        { key: 'x-frame-options',                     label: 'X-Frame-Options',                      critical: true,  desc: 'Prevents clickjacking via iframes' },
+        { key: 'x-content-type-options',              label: 'X-Content-Type-Options',               critical: true,  desc: 'Prevents MIME-type sniffing' },
+        { key: 'x-xss-protection',                    label: 'X-XSS-Protection',                     critical: false, desc: 'Legacy XSS filter (modern browsers use CSP instead)' },
+        { key: 'referrer-policy',                     label: 'Referrer-Policy',                      critical: false, desc: 'Controls how much referrer information is sent' },
+        { key: 'permissions-policy',                  label: 'Permissions-Policy',                   critical: false, desc: 'Controls access to browser features (camera, geolocation, etc.)' },
+    ];
+
+    let html = `<div class="header-info">Security headers retrieved from <a href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a> — HTTP ${statusCode}</div><div class="headers-grid">`;
+
+    for (const c of checks) {
+        const value   = headers[c.key];
+        const present = value !== undefined;
+        html += `<div class="header-item ${present ? 'present' : 'missing'}">
+            <div class="header-name">
+                <span class="header-status-icon">${present ? '✓' : '✗'}</span>
+                ${esc(c.label)}
+                ${c.critical && !present ? '<span class="critical-badge">Critical</span>' : ''}
+            </div>
+            <div class="header-value" style="font-size:0.8rem;color:var(--subtext);margin-bottom:4px">${esc(c.desc)}</div>`;
+
+        if (present) {
+            if (c.key === 'content-security-policy') {
+                html += renderCspDetail(value);
+            } else {
+                html += `<div class="header-value">${esc(value)}</div>`;
+            }
+        } else {
+            html += `<div class="header-missing">Not set${c.critical ? ' — this is a security concern' : ''}</div>`;
+        }
+        html += '</div>';
+    }
+
+    html += '</div>';
+    return html;
+}
+
+function renderCspDetail(cspString) {
+    const directives = parseCsp(cspString);
+    const globalIssues = analyzeGlobalCsp(directives);
+    let html = '';
+
+    html += `<div class="csp-raw"><code>${esc(cspString)}</code></div>`;
+
+    if (globalIssues.length > 0) {
+        html += `<div class="csp-issues"><strong>⚠ Security concerns:</strong><ul>`;
+        globalIssues.forEach(i => { html += `<li>${esc(i)}</li>`; });
+        html += `</ul></div>`;
+    } else {
+        html += `<div class="csp-ok">✓ No obvious security issues detected in CSP</div>`;
+    }
+
+    html += `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:0.83rem;color:var(--subtext)">Show directive breakdown</summary><div class="csp-directives" style="margin-top:8px">`;
+    for (const [name, values] of Object.entries(directives)) {
+        const issues = analyzeDirective(name, values);
+        html += `<div class="csp-directive ${issues.length ? 'has-issues' : ''}">
+            <span class="directive-name">${esc(name)}</span>
+            <span class="directive-values">${values.map(v => esc(v)).join(' ') || '<em>(no value)</em>'}</span>
+            ${issues.length ? `<span class="directive-issue">⚠ ${esc(issues[0])}</span>` : ''}
+        </div>`;
+    }
+    html += `</div></details>`;
+    return html;
+}
+
+function renderCorsNote() {
+    return `
+    <div class="csp-loading">
+        <p style="margin-bottom:8px">
+            <strong>⚠ CORS restriction</strong> — the browser cannot read response headers from
+            <a href="${esc(TARGET_URL)}" target="_blank" rel="noopener">${esc(TARGET_URL)}</a>
+            directly due to the browser's
+            <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS" target="_blank" rel="noopener">cross-origin policy</a>.
+        </p>
+        <div class="cors-note">
+            <strong>To analyse the security headers manually:</strong><br>
+            Open <a href="${esc(TARGET_URL)}" target="_blank" rel="noopener">${esc(TARGET_URL)}</a>,
+            press <kbd>F12</kbd> → <em>Network</em> tab → click the first request → <em>Response Headers</em>.
+            Look for <code>content-security-policy</code>, <code>strict-transport-security</code>,
+            <code>x-frame-options</code>, and <code>x-content-type-options</code>.
+            Alternatively, use <a href="https://securityheaders.com/?q=${encodeURIComponent(TARGET_URL)}&followRedirects=on" target="_blank" rel="noopener">securityheaders.com</a>
+            or <a href="https://csp-evaluator.withgoogle.com/" target="_blank" rel="noopener">Google CSP Evaluator</a>.
+        </div>
+    </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CSP parsing & analysis
+// ─────────────────────────────────────────────────────────────────────────────
+function parseCsp(csp) {
+    const result = {};
+    csp.split(';').forEach(part => {
+        const t = part.trim();
+        if (!t) return;
+        const sp = t.indexOf(' ');
+        if (sp === -1) {
+            result[t.toLowerCase()] = [];
+        } else {
+            result[t.substring(0, sp).toLowerCase()] = t.substring(sp + 1).split(/\s+/).filter(Boolean);
+        }
+    });
+    return result;
+}
+
+function analyzeGlobalCsp(directives) {
+    const issues = [];
+    const hasFallback = 'default-src' in directives;
+
+    if (!hasFallback && !('script-src' in directives)) {
+        issues.push("No default-src or script-src — scripts may load from any origin");
+    }
+    if (!('frame-ancestors' in directives)) {
+        issues.push("Missing frame-ancestors — site may be vulnerable to clickjacking attacks");
+    }
+    if (!hasFallback && !('object-src' in directives)) {
+        issues.push("Missing object-src — browser plugins may load from any origin");
+    }
+    if (!('upgrade-insecure-requests' in directives) && !('block-all-mixed-content' in directives)) {
+        issues.push("No upgrade-insecure-requests or block-all-mixed-content directive — mixed content may be loaded");
+    }
+    return issues;
+}
+
+function analyzeDirective(name, values) {
+    const issues = [];
+    const isScriptOrDefault = name === 'script-src' || name === 'default-src';
+
+    if (values.includes("'unsafe-inline'") && isScriptOrDefault) {
+        issues.push("'unsafe-inline' allows inline scripts — increases XSS risk");
+    }
+    if (values.includes("'unsafe-eval'")) {
+        issues.push("'unsafe-eval' allows eval() / Function() — code injection risk");
+    }
+    if ((values.includes('*') || values.includes('http:') || values.includes('https:')) && isScriptOrDefault) {
+        issues.push("Overly broad source — scripts may load from any origin");
+    }
+    if (values.includes('data:') && isScriptOrDefault) {
+        issues.push("'data:' URIs in script context can enable XSS");
+    }
+    return issues;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Utility
+// ─────────────────────────────────────────────────────────────────────────────
+function esc(str) {
+    if (str == null) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+</script>
+</body>
+</html>
