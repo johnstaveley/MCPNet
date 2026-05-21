@@ -217,6 +217,23 @@
             margin-bottom: 12px;
         }
 
+        /* ── Connectivity category groups ── */
+        .conn-category-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--subtext);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin: 18px 0 7px;
+        }
+        .conn-category-label:first-child { margin-top: 0; }
+        .conn-category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px;
+            margin-bottom: 4px;
+        }
+
         /* ── Spinner ── */
         .spinner {
             display: inline-block;
@@ -255,6 +272,7 @@
             .header-inner { flex-wrap: wrap; gap: 10px; }
             .header-divider { display: none; }
             #conn-grid { grid-template-columns: 1fr; }
+            .conn-category-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -298,7 +316,7 @@
     <div id="conn-summary-line" class="conn-summary-line">
         <span class="spinner"></span>Testing connections…
     </div>
-    <div id="conn-grid"></div>
+    <div id="conn-sections"></div>
 
     <!-- ── 3. Overall summary ── -->
     <div class="section-heading">Overall result</div>
@@ -323,51 +341,61 @@ const MIN_VERSIONS = { Chrome: 90, Firefox: 88, Edge: 90, Safari: 14, Opera: 76 
 // Domains are grouped by the CSP directive(s) they appear in.
 // ─────────────────────────────────────────────────────────────────────────────
 const CSP_SOURCES = [
-    // ── connect-src — API and real-time connections ──────────────────────────
-    { url: 'https://api.myglobalbridge.com',                         label: 'api.myglobalbridge.com',                         directives: ['connect-src'] },
-    { url: 'https://releaseapi.myglobalbridge.com',                  label: 'releaseapi.myglobalbridge.com',                  directives: ['connect-src'] },
-    { url: 'https://stagingapi.myglobalbridge.com',                  label: 'stagingapi.myglobalbridge.com',                  directives: ['connect-src'] },
-    { url: 'https://globalbridgeappapi.azurewebsites.net',           label: 'globalbridgeappapi.azurewebsites.net',           directives: ['connect-src'] },
-    { url: 'https://globalbridgeappapi-release.azurewebsites.net',   label: 'globalbridgeappapi-release.azurewebsites.net',   directives: ['connect-src'] },
-    { url: 'https://graph.microsoft.com',                            label: 'graph.microsoft.com',                            directives: ['connect-src'] },
-    { url: 'https://login.microsoftonline.com',                      label: '*.microsoftonline.com',                          directives: ['connect-src'] },
-    { url: 'https://freshchat.com',                                  label: '*.freshchat.com',                                directives: ['connect-src', 'script-src', 'font-src', 'worker-src', 'frame-src'] },
-    { url: 'https://www.freshmarketer.com',                          label: '*.freshmarketer.com',                            directives: ['connect-src'] },
-    { url: 'https://www.freshmarketer.eu',                           label: '*.freshmarketer.eu',                             directives: ['connect-src'] },
-    { url: 'https://fonts.googleapis.com',                           label: 'fonts.googleapis.com (*.googleapis.com)',        directives: ['connect-src', 'style-src'] },
-    { url: 'https://fonts.gstatic.com',                              label: 'fonts.gstatic.com (*.gstatic.com)',              directives: ['connect-src', 'font-src', 'style-src'] },
+    // ── globalbridge ─────────────────────────────────────────────────────────
+    { url: 'https://api.myglobalbridge.com',                         label: 'api.myglobalbridge.com',                         directives: ['connect-src'],                                                       category: 'globalbridge' },
+    { url: 'https://releaseapi.myglobalbridge.com',                  label: 'releaseapi.myglobalbridge.com',                  directives: ['connect-src'],                                                       category: 'globalbridge' },
+    { url: 'https://stagingapi.myglobalbridge.com',                  label: 'stagingapi.myglobalbridge.com',                  directives: ['connect-src'],                                                       category: 'globalbridge' },
+    { url: 'https://globalbridgeappapi.azurewebsites.net',           label: 'globalbridgeappapi.azurewebsites.net',           directives: ['connect-src'],                                                       category: 'globalbridge' },
+    { url: 'https://globalbridgeappapi-release.azurewebsites.net',   label: 'globalbridgeappapi-release.azurewebsites.net',   directives: ['connect-src'],                                                       category: 'globalbridge' },
+    { url: 'https://fonts.googleapis.com',                           label: 'fonts.googleapis.com (*.googleapis.com)',        directives: ['connect-src', 'style-src'],                                          category: 'globalbridge' },
+    { url: 'https://fonts.gstatic.com',                              label: 'fonts.gstatic.com (*.gstatic.com)',              directives: ['connect-src', 'font-src', 'style-src'],                              category: 'globalbridge' },
+    { url: 'https://cdnjs.cloudflare.com',                           label: 'cdnjs.cloudflare.com',                           directives: ['script-src', 'style-src', 'font-src'],                               category: 'globalbridge' },
+    { url: 'https://bootstrapcdn.com',                               label: 'bootstrapcdn.com',                               directives: ['script-src'],                                                        category: 'globalbridge' },
 
-    // ── script-src — JavaScript dependencies ────────────────────────────────
-    { url: 'https://eu.fw-cdn.com',                                  label: 'eu.fw-cdn.com (*.fw-cdn.com)',                   directives: ['script-src'] },
-    { url: 'https://rts-static-prod.freshworksapi.com/',             label: '*.freshworksapi.com',                            directives: ['script-src'] },
-    { url: 'https://www.googletagmanager.com',                       label: '*.googletagmanager.com',                         directives: ['script-src'] },
-    { url: 'https://cdnjs.cloudflare.com',                           label: 'cdnjs.cloudflare.com',                           directives: ['script-src', 'style-src', 'font-src'] },
-    { url: 'https://stackpath.bootstrapcdn.com',                     label: 'stackpath.bootstrapcdn.com',                     directives: ['script-src', 'style-src'] },
-    { url: 'https://bootstrapcdn.com',                               label: 'bootstrapcdn.com',                               directives: ['script-src'] },
-    { url: 'https://code.jquery.com',                                label: 'code.jquery.com',                                directives: ['script-src'] },
-    { url: 'https://js.monitor.azure.com',                           label: 'js.monitor.azure.com',                           directives: ['script-src'] },
-    { url: 'https://doubleclick.net',                                label: 'doubleclick.net',                                directives: ['script-src'] },
-    { url: 'https://sndcdn.com',                                     label: 'sndcdn.com',                                     directives: ['script-src', 'img-src'] },
-    { url: 'https://aadcdn.msauth.net/ests/2.1/content/cdnbundles/', label: '*.msauth.net',                                   directives: ['script-src'] },
+    // ── Microsoft SSO ─────────────────────────────────────────────────────────
+    { url: 'https://graph.microsoft.com',                            label: 'graph.microsoft.com',                            directives: ['connect-src'],                                                       category: 'Microsoft SSO' },
+    { url: 'https://login.microsoftonline.com',                      label: '*.microsoftonline.com',                          directives: ['connect-src'],                                                       category: 'Microsoft SSO' },
+    { url: 'https://aadcdn.msauth.net/ests/2.1/content/cdnbundles/', label: '*.msauth.net',                                   directives: ['script-src'],                                                        category: 'Microsoft SSO' },
 
-    // ── style-src — Stylesheets & fonts ─────────────────────────────────────
-    { url: 'https://hello.myfonts.net',                              label: 'hello.myfonts.net',                              directives: ['style-src'] },
+    // ── Freshchat ─────────────────────────────────────────────────────────────
+    { url: 'https://freshchat.com',                                  label: '*.freshchat.com',                                directives: ['connect-src', 'script-src', 'font-src', 'worker-src', 'frame-src'], category: 'Freshchat' },
+    { url: 'https://www.freshmarketer.com',                          label: '*.freshmarketer.com',                            directives: ['connect-src'],                                                       category: 'Freshchat' },
+    { url: 'https://www.freshmarketer.eu',                           label: '*.freshmarketer.eu',                             directives: ['connect-src'],                                                       category: 'Freshchat' },
+    { url: 'https://eu.fw-cdn.com',                                  label: 'eu.fw-cdn.com (*.fw-cdn.com)',                   directives: ['script-src'],                                                        category: 'Freshchat' },
+    { url: 'https://rts-static-prod.freshworksapi.com/',             label: '*.freshworksapi.com',                            directives: ['script-src'],                                                        category: 'Freshchat' },
 
-    // ── img-src — Images ─────────────────────────────────────────────────────
-    { url: 'https://images.credly.com',                              label: 'images.credly.com',                              directives: ['img-src'] },
-    { url: 'https://badgr.com',                                      label: 'badgr.com',                                      directives: ['img-src'] },
-    { url: 'https://badgr.io',                                       label: 'badgr.io',                                       directives: ['img-src'] },
-    { url: 'https://navigatr.app',                                   label: 'navigatr.app (*.navigatr.app)',                  directives: ['img-src'] },
-    { url: 'https://i.ytimg.com',                                    label: 'i.ytimg.com',                                    directives: ['img-src'] },
-    { url: 'https://yt3.ggpht.com',                                  label: 'yt3.ggpht.com',                                  directives: ['img-src'] },
-    { url: 'https://fc-use1-00-pics-bkt-00.s3.amazonaws.com',        label: 'fc-use1-00-pics-bkt-00.s3.amazonaws.com',        directives: ['img-src'] },
+    // ── User tracking ─────────────────────────────────────────────────────────
+    { url: 'https://www.googletagmanager.com',                       label: '*.googletagmanager.com',                         directives: ['script-src'],                                                        category: 'User tracking' },
+    { url: 'https://doubleclick.net',                                label: 'doubleclick.net',                                directives: ['script-src'],                                                        category: 'User tracking' },
 
-    // ── frame-src — Embedded content ─────────────────────────────────────────
-    { url: 'https://www.youtube.com',                                label: 'youtube.com (*.youtube.com)',                    directives: ['frame-src', 'img-src', 'script-src'] },
-    { url: 'https://soundcloud.com',                                 label: 'soundcloud.com (*.soundcloud.com)',              directives: ['frame-src'] },
+    // ── User interface ────────────────────────────────────────────────────────
+    { url: 'https://stackpath.bootstrapcdn.com',                     label: 'stackpath.bootstrapcdn.com',                     directives: ['script-src', 'style-src'],                                           category: 'User interface' },
+    { url: 'https://code.jquery.com',                                label: 'code.jquery.com',                                directives: ['script-src'],                                                        category: 'User interface' },
+    { url: 'https://hello.myfonts.net',                              label: 'hello.myfonts.net',                              directives: ['style-src'],                                                         category: 'User interface' },
 
-    // ── frame-ancestors — Trusted embedding hosts ────────────────────────────
-    { url: 'https://sts.platform.rmunify.com',                       label: 'sts.platform.rmunify.com',                       directives: ['frame-ancestors'] },
+    // ── Logging ───────────────────────────────────────────────────────────────
+    { url: 'https://js.monitor.azure.com',                           label: 'js.monitor.azure.com',                           directives: ['script-src'],                                                        category: 'Logging' },
+
+    // ── Badges ────────────────────────────────────────────────────────────────
+    { url: 'https://images.credly.com',                              label: 'images.credly.com',                              directives: ['img-src'],                                                           category: 'Badges' },
+    { url: 'https://badgr.com',                                      label: 'badgr.com',                                      directives: ['img-src'],                                                           category: 'Badges' },
+    { url: 'https://badgr.io',                                       label: 'badgr.io',                                       directives: ['img-src'],                                                           category: 'Badges' },
+    { url: 'https://navigatr.app',                                   label: 'navigatr.app (*.navigatr.app)',                  directives: ['img-src'],                                                           category: 'Badges' },
+
+    // ── Student and globalbridge Videos ───────────────────────────────────────
+    { url: 'https://www.youtube.com',                                label: 'youtube.com (*.youtube.com)',                    directives: ['frame-src', 'img-src', 'script-src'],                                category: 'Student and globalbridge Videos' },
+    { url: 'https://i.ytimg.com',                                    label: 'i.ytimg.com',                                    directives: ['img-src'],                                                           category: 'Student and globalbridge Videos' },
+
+    // ── SoundCloud ────────────────────────────────────────────────────────────
+    { url: 'https://soundcloud.com',                                 label: 'soundcloud.com (*.soundcloud.com)',              directives: ['frame-src'],                                                         category: 'SoundCloud' },
+    { url: 'https://sndcdn.com',                                     label: 'sndcdn.com',                                     directives: ['script-src', 'img-src'],                                             category: 'SoundCloud' },
+
+    // ── Google Drive ──────────────────────────────────────────────────────────
+    { url: 'https://yt3.ggpht.com',                                  label: 'yt3.ggpht.com',                                  directives: ['img-src'],                                                           category: 'Google Drive' },
+    { url: 'https://fc-use1-00-pics-bkt-00.s3.amazonaws.com',        label: 'fc-use1-00-pics-bkt-00.s3.amazonaws.com',        directives: ['img-src'],                                                           category: 'Other' },
+
+    // ── Glow SSO ──────────────────────────────────────────────────────────────
+    { url: 'https://sts.platform.rmunify.com',                       label: 'sts.platform.rmunify.com',                       directives: ['frame-ancestors'],                                                   category: 'Glow SSO' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -473,15 +501,26 @@ function checkItemHtml(r) {
 // 2. Connectivity checks
 // ─────────────────────────────────────────────────────────────────────────────
 async function runConnectivityChecks() {
-    const grid     = document.getElementById('conn-grid');
+    const sections = document.getElementById('conn-sections');
     const progress = document.getElementById('conn-progress');
     const summLine = document.getElementById('conn-summary-line');
-    if (!grid) return;
+    if (!sections) return;
 
     const total   = CSP_SOURCES.length;
     const results = new Array(total).fill(null);
 
-    grid.innerHTML = CSP_SOURCES.map((s, i) => connItemHtml(s, 'running', '…', i)).join('');
+    // Group by category preserving insertion order
+    const categories = [];
+    const catMap = {};
+    CSP_SOURCES.forEach((s, i) => {
+        if (!catMap[s.category]) { catMap[s.category] = []; categories.push(s.category); }
+        catMap[s.category].push({ s, i });
+    });
+
+    sections.innerHTML = categories.map(cat => {
+        const items = catMap[cat].map(({ s, i }) => connItemHtml(s, 'running', '…', i)).join('');
+        return `<div class="conn-category-label">${esc(cat)}</div><div class="conn-category-grid">${items}</div>`;
+    }).join('');
 
     let done = 0;
     const CONCURRENCY = 8;
@@ -494,7 +533,7 @@ async function runConnectivityChecks() {
         const passes = results.filter(r => r === true).length;
         const fails  = results.filter(r => r === false).length;
         summLine.textContent = `Testing… ${done}/${total} complete — ${passes} reachable, ${fails} unreachable`;
-        const card = grid.querySelector(`[data-idx="${i}"]`);
+        const card = sections.querySelector(`[data-idx="${i}"]`);
         if (card) card.outerHTML = connItemHtml(CSP_SOURCES[i], ok ? 'pass' : 'fail', ok ? 'Reachable' : 'Unreachable', i);
     };
 
